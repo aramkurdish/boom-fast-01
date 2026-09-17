@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App user profile with role-based access",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "role": { "type": "string", "enum": ["CUSTOMER", "RESTAURANT", "DRIVER", "SUPER_ADMIN"] },
+        "restaurantId": { "type": "string", "maxLength": 128 },
+        "driverId": { "type": "string", "maxLength": 128 },
+        "isBlocked": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "phone", "role"]
+    },
+    "Restaurant": {
+      "title": "Restaurant",
+      "description": "Restaurant details and delivery configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 120 },
+        "logo": { "type": "string", "maxLength": 500 },
+        "coverImage": { "type": "string", "maxLength": 500 },
+        "rating": { "type": "number" },
+        "ratingCount": { "type": "number" },
+        "deliveryTime": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 500 },
+        "isOpen": { "type": "boolean" },
+        "address": { "type": "string", "maxLength": 200 },
+        "isFeatured": { "type": "boolean" },
+        "isPopular": { "type": "boolean" },
+        "ownerId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "name", "category", "isOpen"]
+    },
+    "MenuItem": {
+      "title": "MenuItem",
+      "description": "Food item within a restaurant menu",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "restaurantId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 500 },
+        "price": { "type": "number" },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "category": { "type": "string", "maxLength": 50 },
+        "isAvailable": { "type": "boolean" }
+      },
+      "required": ["id", "restaurantId", "name", "price", "isAvailable"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Food delivery order with 7-step tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "number" },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerPhone": { "type": "string", "maxLength": 20 },
+        "restaurantId": { "type": "string", "maxLength": 128 },
+        "restaurantName": { "type": "string", "maxLength": 120 },
+        "driverId": { "type": "string", "maxLength": 128 },
+        "driverName": { "type": "string", "maxLength": 100 },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "total": { "type": "number" },
+        "customerAddress": { "type": "string", "maxLength": 300 },
+        "deliveryNotes": { "type": "string", "maxLength": 300 },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PLACED",
+            "ACCEPTED",
+            "PREPARING",
+            "READY",
+            "DRIVER_PICKED_UP",
+            "ON_THE_WAY",
+            "DELIVERED",
+            "CANCELLED"
+          ]
+        },
+        "paymentMethod": { "type": "string", "enum": ["CASH_ON_DELIVERY"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "customerId", "restaurantId", "status", "total"]
+    },
+    "DeliveryZone": {
+      "title": "DeliveryZone",
+      "description": "Configurable distance range and delivery fee",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "minDistance": { "type": "number" },
+        "maxDistance": { "type": "number" },
+        "fee": { "type": "number" }
+      },
+      "required": ["id", "name", "minDistance", "maxDistance", "fee"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and role assignments"
+    },
+    "/restaurants/{restaurantId}": {
+      "schema": "Restaurant",
+      "description": "Registered restaurants directory"
+    },
+    "/menuItems/{menuItemId}": {
+      "schema": "MenuItem",
+      "description": "Food menu catalog"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer food delivery orders"
+    },
+    "/deliveryZones/{zoneId}": {
+      "schema": "DeliveryZone",
+      "description": "Admin configurable delivery distance pricing"
+    }
+  }
+}

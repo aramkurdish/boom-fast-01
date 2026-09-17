@@ -1,0 +1,10 @@
+{
+  "name": "Boom Fast",
+  "description": "Boom Fast - خێراترین ئەپی داواکردن و گەیاندنی خواردن بە شێوازی مۆدێرن بە چوار ڕۆڵ (کڕیار، چێشتخانە، شۆفێر، سوپەر ئەدمین)",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
